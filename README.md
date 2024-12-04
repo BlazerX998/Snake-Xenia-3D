@@ -1,4 +1,4 @@
-# Snake-Xenzia-3D
+# Snake-Xenia-3D
 A Simple 3D Game similar to the famous mobile game Snake Xenzia.
 
 
