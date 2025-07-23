@@ -72,10 +72,14 @@ public class GamePlayController   : MonoBehaviour {
 
 
 	}
-
-
-
-
-
+	public void GameOver()
+{
+    BackendManager backend = FindObjectOfType<BackendManager>();
+    if (backend != null)
+    {
+        string playerName = PlayerPrefs.GetString("PlayerName", "Guest");
+        backend.SubmitScore(playerName, scoreCount);
+    }
+}
 
 }
