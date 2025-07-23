@@ -5,10 +5,9 @@ using System.Collections.Generic;
 
 public class BackendManager : MonoBehaviour
 {
-submitUrl = "https://abc123xyz.execute-api.ap-south-1.amazonaws.com/prod/submit-score";
-leaderboardUrl = "https://abc123xyz.execute-api.ap-south-1.amazonaws.com/prod/leaderboard";
+    private string submitUrl = "https://your-api-id.execute-api.region.amazonaws.com/prod/submit-score";
+    private string leaderboardUrl = "https://your-api-id.execute-api.region.amazonaws.com/prod/leaderboard";
 
-    // Call this when player finishes a game
     public void SubmitScore(string playerName, int score)
     {
         StartCoroutine(SubmitScoreCoroutine(playerName, score));
@@ -18,7 +17,7 @@ leaderboardUrl = "https://abc123xyz.execute-api.ap-south-1.amazonaws.com/prod/le
     {
         var jsonData = JsonUtility.ToJson(new ScoreData(playerName, score));
         UnityWebRequest request = new UnityWebRequest(submitUrl, "POST");
-        byte[] bodyRaw = new System.Text.UTF8Encoding().GetBytes(jsonData);
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);
         request.uploadHandler = new UploadHandlerRaw(bodyRaw);
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
@@ -26,9 +25,6 @@ leaderboardUrl = "https://abc123xyz.execute-api.ap-south-1.amazonaws.com/prod/le
         yield return request.SendWebRequest();
 
         if (request.result != UnityWebRequest.Result.Success)
-#else
-        if (request.isNetworkError || request.isHttpError)
-#endif
         {
             Debug.LogError("Error submitting score: " + request.error);
         }
@@ -51,9 +47,6 @@ leaderboardUrl = "https://abc123xyz.execute-api.ap-south-1.amazonaws.com/prod/le
         yield return request.SendWebRequest();
 
         if (request.result != UnityWebRequest.Result.Success)
-#else
-        if (request.isNetworkError || request.isHttpError)
-#endif
         {
             Debug.LogError("Error fetching leaderboard: " + request.error);
             onResult?.Invoke(null);
