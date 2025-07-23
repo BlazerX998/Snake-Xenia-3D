@@ -66,20 +66,14 @@ public class GamePlayController   : MonoBehaviour {
 
 		}
 
-	public void IncreaseScore(){
-		scoreCount++;
-		score_Text.text = "Score : " + scoreCount;
+public void IncreaseScore(){
+    scoreCount++;
+    score_Text.text = "Score : " + scoreCount;
+}
 
-
-	}
-	public void GameOver()
-{
-    BackendManager backend = FindObjectOfType<BackendManager>();
-    if (backend != null)
-    {
-        string playerName = PlayerPrefs.GetString("PlayerName", "Guest");
-        backend.SubmitScore(playerName, scoreCount);
-    }
+public void GameOver() {
+    string playerName = PlayerPrefs.GetString("PlayerName", "Guest");
+    BackendManager.Instance.SubmitScore(playerName, scoreCount);
 }
 
 }
