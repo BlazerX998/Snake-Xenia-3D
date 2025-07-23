@@ -1,0 +1,32 @@
+using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
+
+public class UIManager : MonoBehaviour
+{
+    public static UIManager Instance;
+
+    [SerializeField] private Text popupText;
+    [SerializeField] private CanvasGroup popupCanvas;
+
+    void Awake()
+    {
+        if (Instance == null) {
+            Instance = this;
+        }
+    }
+
+    public void ShowPopup(string message)
+    {
+        StopAllCoroutines();
+        StartCoroutine(PopupRoutine(message));
+    }
+
+    IEnumerator PopupRoutine(string msg)
+    {
+        popupText.text = msg;
+        popupCanvas.alpha = 1;
+        yield return new WaitForSeconds(2f);
+        popupCanvas.alpha = 0;
+    }
+}
